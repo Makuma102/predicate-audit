@@ -20,7 +20,8 @@ MuJoCo have no MATLAB interface.
 |---|---|
 | Statistics and graders (`matlab/+predaudit`) | Run in MATLAB R2019b; 23 of 23 unit tests pass. Expected values in the tests were computed independently |
 | Real-data screening on the official LIBERO demonstrations | Runs end to end. The MuJoCo state layout recovered from the model matches the logged state width (1 + 41 + 37 = 79 on `libero_goal`) |
-| Extended rollouts with policies | Logger drafted in `sim_shim/`, untested |
+| Extended replays of the official demonstrations | `sim_shim/replay_demos.py` runs in LIBERO (robosuite 1.4.0, MuJoCo 3.2.3, Python 3.8) and `matlab/run_extension_audit.m` grades the logs |
+| Extended rollouts with policies | Logger drafted in `sim_shim/libero_logger.py`, untested |
 | Human labels | Not started |
 
 The earlier toy simulator and its outputs were removed. Result files are
@@ -39,6 +40,7 @@ download_libero_suite("libero_goal", fullfile(pwd, "data", "libero_goal"), 'DryR
 download_libero_suite("libero_goal")                  % roughly 6 to 7 GB, official files
 run_demo_terminal_audit("libero_goal")                % writes results/demo_terminal_audit/libero_goal/
 build_libero_taxonomy                                 % writes results/taxonomy/ (40 tasks, from the task files)
+run_extension_audit("libero_goal", "release")         % after sim_shim/replay_demos.py has written its logs
 ```
 
 `run_demo_terminal_audit` reads the logged MuJoCo state of every official
@@ -68,7 +70,9 @@ and caches it next to the data.
 | `matlab/download_libero_suite.m`, `run_demo_terminal_audit.m` | Data download and the real-data screening run |
 | `matlab/build_libero_taxonomy.m` | Static table of goal predicates for the 40 LIBERO tasks, parsed from the official task files |
 | `matlab/tests/` | Unit tests |
-| `sim_shim/libero_logger.py` | Extended-rollout logger (untested draft) |
+| `matlab/run_extension_audit.m` | Grades the extended replays: first hit, lost after extension, flicker, persistence windows |
+| `sim_shim/replay_demos.py` | Evaluates the predicate on every logged demonstration state and simulates 100 further steps from the exact last logged state (protocols `release` and `hold`) |
+| `sim_shim/libero_logger.py` | Extended-rollout logger for policies (untested draft) |
 | `results/` | Run outputs (git-ignored) |
 
 ## What LIBERO's checker does
