@@ -38,6 +38,7 @@ run_tests                                             % unit tests
 download_libero_suite("libero_goal", fullfile(pwd, "data", "libero_goal"), 'DryRun', true)
 download_libero_suite("libero_goal")                  % roughly 6 to 7 GB, official files
 run_demo_terminal_audit("libero_goal")                % writes results/demo_terminal_audit/libero_goal/
+build_libero_taxonomy                                 % writes results/taxonomy/ (40 tasks, from the task files)
 ```
 
 `run_demo_terminal_audit` reads the logged MuJoCo state of every official
@@ -65,6 +66,7 @@ and caches it next to the data.
 | `matlab/+predaudit/firstHit.m`, `endOfEpisode.m`, `persistWindow.m` | Graders over a per-step predicate trace |
 | `matlab/+predaudit/readLiberoFile.m`, `mjcfJointLayout.m`, `parseBddlGoal.m`, `demoTerminalAudit.m` | Reading official LIBERO HDF5 files and recovering object motion from the MuJoCo state |
 | `matlab/download_libero_suite.m`, `run_demo_terminal_audit.m` | Data download and the real-data screening run |
+| `matlab/build_libero_taxonomy.m` | Static table of goal predicates for the 40 LIBERO tasks, parsed from the official task files |
 | `matlab/tests/` | Unit tests |
 | `sim_shim/libero_logger.py` | Extended-rollout logger (untested draft) |
 | `results/` | Run outputs (git-ignored) |
