@@ -8,3 +8,5 @@ results/*
 !results/.gitkeep
 *.mp4
 *.hdf5
+matlab/data/
+*.asv
