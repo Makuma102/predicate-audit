@@ -11,7 +11,7 @@ function [tf, firstStep] = persistWindow(trace, window, extra)
 %   window = 1 reproduces the built-in first-hit behaviour.
 
     arguments
-        trace {mustBeVector}
+        trace
         window (1,1) double {mustBePositive, mustBeInteger}
         extra = []
     end

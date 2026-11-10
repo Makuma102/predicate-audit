@@ -5,7 +5,7 @@ function tf = firstHit(trace)
 %   at the first done.
 
     arguments
-        trace {mustBeVector}
+        trace
     end
     tf = any(logical(trace));
 end

@@ -15,9 +15,9 @@ function out = mcnemarExact(g1, g2, ref)
 %   ignore that pairing.
 
     arguments
-        g1 {mustBeVector}
-        g2 {mustBeVector}
-        ref {mustBeVector}
+        g1
+        g2
+        ref
     end
     g1 = logical(g1(:)); g2 = logical(g2(:)); ref = logical(ref(:));
     if numel(g1) ~= numel(ref) || numel(g2) ~= numel(ref)

@@ -59,7 +59,7 @@ classdef StatsTest < matlab.unittest.TestCase
             % 2x2 table [20 5; 10 15]: po = 0.7, pe = 0.5, kappa = 0.4.
             a = [true(25, 1); false(25, 1)];
             b = [true(20, 1); false(5, 1); true(10, 1); false(15, 1)];
-            k = predaudit.cohenKappa(a, b, NBoot=0);
+            k = predaudit.cohenKappa(a, b, 'NBoot', 0);
             tc.verifyEqual([k.po k.pe k.kappa], [0.7 0.5 0.4], 'AbsTol', 1e-12);
             tc.verifyEqual(k.se, 0.1296148140, 'AbsTol', 1e-9);
         end
@@ -67,7 +67,7 @@ classdef StatsTest < matlab.unittest.TestCase
         function kappaBootstrapBrackets(tc)
             a = [true(25, 1); false(25, 1)];
             b = [true(20, 1); false(5, 1); true(10, 1); false(15, 1)];
-            k = predaudit.cohenKappa(a, b, NBoot=500, Seed=1);
+            k = predaudit.cohenKappa(a, b, 'NBoot', 500, 'Seed', 1);
             tc.verifyLessThan(k.bootCi(1), 0.4);
             tc.verifyGreaterThan(k.bootCi(2), 0.4);
         end

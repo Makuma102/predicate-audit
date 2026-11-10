@@ -17,7 +17,7 @@ function out = logisticFit(X, y, opts)
 
     arguments
         X (:,:) double
-        y {mustBeVector}
+        y
         opts.MaxIter (1,1) double = 100
         opts.Tol (1,1) double = 1e-10
     end

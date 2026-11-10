@@ -18,9 +18,9 @@ function out = noiseFloor(srGrader, fsRate, ffRate, nEpisodes, alpha)
 %   1.2 points.
 
     arguments
-        srGrader (1,1) double {mustBeInRange(srGrader, 0, 1)}
-        fsRate (1,1) double {mustBeInRange(fsRate, 0, 1)}
-        ffRate (1,1) double {mustBeInRange(ffRate, 0, 1)}
+        srGrader (1,1) double {mustBeGreaterThanOrEqual(srGrader, 0), mustBeLessThanOrEqual(srGrader, 1)}
+        fsRate (1,1) double {mustBeGreaterThanOrEqual(fsRate, 0), mustBeLessThanOrEqual(fsRate, 1)}
+        ffRate (1,1) double {mustBeGreaterThanOrEqual(ffRate, 0), mustBeLessThanOrEqual(ffRate, 1)}
         nEpisodes (1,1) double {mustBePositive, mustBeInteger}
         alpha (1,1) double = 0.05
     end

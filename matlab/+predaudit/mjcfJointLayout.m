@@ -16,7 +16,7 @@ function layout = mjcfJointLayout(xmlText)
 %   compare 1 + nq + nv with the width of the logged state to catch that.
 
     arguments
-        xmlText {mustBeTextScalar}
+        xmlText
     end
     tmp = [tempname, '.xml'];
     fid = fopen(tmp, 'w', 'n', 'UTF-8');

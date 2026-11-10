@@ -15,8 +15,8 @@ function out = cohenKappa(a, b, opts)
 %   kappa is NaN when pe == 1 (both annotators used a single class).
 
     arguments
-        a {mustBeVector}
-        b {mustBeVector}
+        a
+        b
         opts.Alpha (1,1) double = 0.05
         opts.NBoot (1,1) double {mustBeNonnegative, mustBeInteger} = 2000
         opts.Seed (1,1) double = 0

@@ -9,8 +9,8 @@ function out = topKConcentration(taskId, discrepant, k)
 %   out = predaudit.topKConcentration(taskId, discrepant, k) uses the given k.
 
     arguments
-        taskId {mustBeVector}
-        discrepant {mustBeVector}
+        taskId
+        discrepant
         k (1,:) double {mustBePositive, mustBeInteger} = [1 3 5]
     end
     taskId = taskId(:);

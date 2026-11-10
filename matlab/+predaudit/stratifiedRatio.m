@@ -27,10 +27,10 @@ function out = stratifiedRatio(y, x, stratum, popSize, alpha)
 %   per stratum should be reported instead.
 
     arguments
-        y {mustBeVector}
-        x {mustBeVector}
-        stratum {mustBeVector}
-        popSize {mustBeVector, mustBeNumeric, mustBePositive}
+        y
+        x
+        stratum
+        popSize {mustBeNumeric, mustBePositive}
         alpha (1,1) double = 0.05
     end
     y = double(y(:)); x = double(x(:)); popSize = double(popSize(:));

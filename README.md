@@ -18,36 +18,38 @@ MuJoCo have no MATLAB interface.
 
 | Part | State |
 |---|---|
-| Statistics and graders (`matlab/+predaudit`) | Written, with unit tests whose expected values were computed independently. **Not yet run in MATLAB** (no MATLAB on the machine they were written on) |
-| Real-data screening on the official LIBERO demonstrations | Script written, **not yet run**. No results exist yet |
+| Statistics and graders (`matlab/+predaudit`) | Run in MATLAB R2019b; 23 of 23 unit tests pass. Expected values in the tests were computed independently |
+| Real-data screening on the official LIBERO demonstrations | Runs end to end. The MuJoCo state layout recovered from the model matches the logged state width (1 + 41 + 37 = 79 on `libero_goal`) |
 | Extended rollouts with policies | Logger drafted in `sim_shim/`, untested |
 | Human labels | Not started |
 
-There are no numbers in this repository yet. The earlier toy simulator and
-its outputs were removed.
+The earlier toy simulator and its outputs were removed. Result files are
+written to `results/` and are not committed.
 
 ## Requirements
 
-MATLAB R2021a or newer (uses `arguments` blocks, `Name=Value` call syntax
-and `jsonencode(..., PrettyPrint=true)`). No toolbox.
+MATLAB R2019b or newer. No toolbox.
 
 ## Run
 
 ```matlab
 cd matlab
-run_tests                                  % unit tests
-download_libero_suite("libero_goal", DryRun=true)   % list files and sizes
-download_libero_suite("libero_goal")       % roughly 6 to 7 GB, official files
-run_demo_terminal_audit("libero_goal")     % writes results/demo_terminal_audit/libero_goal/
+run_tests                                             % unit tests
+download_libero_suite("libero_goal", fullfile(pwd, "data", "libero_goal"), 'DryRun', true)
+download_libero_suite("libero_goal")                  % roughly 6 to 7 GB, official files
+run_demo_terminal_audit("libero_goal")                % writes results/demo_terminal_audit/libero_goal/
 ```
 
 `run_demo_terminal_audit` reads the logged MuJoCo state of every official
-demonstration and reports, per task, how many accepted demonstrations end
-with the goal object still moving or with the gripper not open, with exact
-95% intervals. Every demonstration was accepted by the built-in predicate,
-so this is a first real-data look at how much an at-rest or a release
-requirement would change verdicts. It is a screening measurement, not a
-human-verified false-success rate.
+demonstration and reports, per task, how many accepted demonstrations have
+the goal object moving in the final 10 steps or at the last logged state,
+and how many end with the gripper not fully open, with exact 95% intervals.
+Every demonstration was accepted by the built-in predicate, so this is a
+first real-data look at how much an at-rest or a release requirement would
+change verdicts. It is a screening measurement, not a human-verified
+false-success rate. The released files do not embed the task definition, so
+the reader fetches each task's BDDL file from the LIBERO repository once
+and caches it next to the data.
 
 ## Layout
 

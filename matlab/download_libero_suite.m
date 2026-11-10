@@ -5,8 +5,9 @@ function files = download_libero_suite(suite, outDir, opts)
 %   yifengzhu-hf/LIBERO-datasets into data/<suite>/ next to this file.
 %   Suites: libero_spatial, libero_object, libero_goal, libero_10, libero_90.
 %
-%   download_libero_suite(suite, outDir, MaxFiles=1) limits the number of
-%   files, DryRun=true only lists names and sizes.
+%   Name-value options: 'MaxFiles', n limits the number of files,
+%   'DryRun', true only lists names and sizes, 'Match', text keeps only
+%   files whose name contains text.
 %
 %   Files are 0.5 to 1 GB each (libero_goal: 10 files). A file that already
 %   exists with the size the server reports is skipped.
@@ -17,6 +18,7 @@ function files = download_libero_suite(suite, outDir, opts)
         outDir (1,1) string = fullfile(fileparts(mfilename('fullpath')), "data", suite)
         opts.MaxFiles (1,1) double {mustBePositive} = Inf
         opts.DryRun (1,1) logical = false
+        opts.Match (1,1) string = ""
     end
     repo = "yifengzhu-hf/LIBERO-datasets";
     api = "https://huggingface.co/api/datasets/" + repo + "/tree/main/" + suite;
@@ -32,6 +34,9 @@ function files = download_libero_suite(suite, outDir, opts)
     paths = string({listing.path});
     sizes = [listing.size];
     keep = endsWith(paths, ".hdf5");
+    if opts.Match ~= ""
+        keep = keep & contains(paths, opts.Match);
+    end
     paths = paths(keep); sizes = sizes(keep);
     n = min(numel(paths), opts.MaxFiles);
     fprintf('%s: %d files, %.1f GB in total; fetching %d.\n', ...

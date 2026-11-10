@@ -16,7 +16,7 @@ function goal = parseBddlGoal(bddlText)
 %     Open / Close / TurnOn / TurnOff  thresholds on the joint position
 
     arguments
-        bddlText {mustBeTextScalar}
+        bddlText
     end
     txt = char(bddlText);
     at = regexpi(txt, '\(\s*:goal', 'once');
@@ -24,14 +24,15 @@ function goal = parseBddlGoal(bddlText)
         error('predaudit:parseBddlGoal:noGoal', ...
             'No (:goal ...) section found in the BDDL text.');
     end
-    tok = regexp(txt(at:end), '\(\s*([A-Za-z]\w*)\s+([\w\-]+)(?:\s+([\w\-]+))?\s*\)', 'tokens');
+    tok = regexp(txt(at:end), '\(\s*([A-Za-z]\w*)((?:\s+[\w\-]+)+)\s*\)', 'tokens');
     n = numel(tok);
     predicate = strings(n, 1); arg1 = strings(n, 1); arg2 = strings(n, 1);
     for i = 1:n
         predicate(i) = tok{i}{1};
-        arg1(i) = tok{i}{2};
-        if numel(tok{i}) >= 3
-            arg2(i) = tok{i}{3};
+        args = strsplit(strtrim(tok{i}{2}));
+        arg1(i) = args{1};
+        if numel(args) >= 2
+            arg2(i) = args{2};
         end
     end
     goal = table(predicate, arg1, arg2);

@@ -27,14 +27,16 @@ function T = demoTerminalAudit(file, opts)
 %   "Released" here is an aperture proxy. The real G3 grader needs contact
 %   information, which only the simulator can provide.
 %
-%   Output: one table row per (demonstration, goal object).
+%   Output: one table row per (demonstration, goal object). atRest uses the
+%   maximum speed over the final Window steps, atRestEnd only the last
+%   logged state.
 
     arguments
-        file {mustBeTextScalar}
+        file
         opts.LinTol (1,1) double {mustBePositive} = 0.01
         opts.AngTol (1,1) double {mustBePositive} = 0.10
         opts.Window (1,1) double {mustBePositive, mustBeInteger} = 10
-        opts.ReleaseFrac (1,1) double {mustBeInRange(opts.ReleaseFrac, 0, 1)} = 0.90
+        opts.ReleaseFrac (1,1) double {mustBeGreaterThanOrEqual(opts.ReleaseFrac, 0), mustBeLessThanOrEqual(opts.ReleaseFrac, 1)} = 0.90
     end
     info = predaudit.readLiberoFile(file);
     objects = unique(info.goal.arg1, 'stable');
@@ -69,7 +71,7 @@ function T = demoTerminalAudit(file, opts)
                 'nSteps', nT, 'hasFreeJoint', any(isObj), ...
                 'linSpeedEnd', NaN, 'angSpeedEnd', NaN, ...
                 'linSpeedMaxWindow', NaN, 'angSpeedMaxWindow', NaN, ...
-                'atRest', false, 'apertureEnd', apEnd, 'apertureMax', apMax, ...
+                'atRest', false, 'atRestEnd', false, 'apertureEnd', apEnd, 'apertureMax', apMax, ...
                 'gripperCommandEnd', actions(end, end), 'released', released);
             if sum(isObj) > 1
                 error('predaudit:demoTerminalAudit:ambiguousObject', ...
@@ -86,6 +88,7 @@ function T = demoTerminalAudit(file, opts)
                 r.angSpeedMaxWindow = max(ang(last));
                 r.atRest = r.linSpeedMaxWindow < opts.LinTol && ...
                            r.angSpeedMaxWindow < opts.AngTol;
+                r.atRestEnd = r.linSpeedEnd < opts.LinTol && r.angSpeedEnd < opts.AngTol;
             end
             rows{end + 1, 1} = r; %#ok<AGROW>
         end

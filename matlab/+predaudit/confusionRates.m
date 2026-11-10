@@ -15,8 +15,8 @@ function out = confusionRates(pred, ref, alpha)
 %   sample use predaudit.stratifiedRatio instead.
 
     arguments
-        pred {mustBeVector}
-        ref {mustBeVector}
+        pred
+        ref
         alpha (1,1) double = 0.05
     end
     pred = logical(pred(:));

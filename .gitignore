@@ -10,3 +10,4 @@ results/*
 *.hdf5
 matlab/data/
 *.asv
+*.bddl
