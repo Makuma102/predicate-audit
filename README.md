@@ -71,6 +71,7 @@ and caches it next to the data.
 | `matlab/build_libero_taxonomy.m` | Static table of goal predicates for the 40 LIBERO tasks, parsed from the official task files |
 | `matlab/tests/` | Unit tests |
 | `matlab/run_extension_audit.m` | Grades the extended replays: first hit, lost after extension, flicker, persistence windows |
+| `matlab/run_pooled_summary.m` | Pools all suites by suite and goal-predicate class, with exact and task-clustered bootstrap intervals, and top-k concentration |
 | `sim_shim/replay_demos.py` | Evaluates the predicate on every logged demonstration state and simulates 100 further steps from the exact last logged state (protocols `release` and `hold`) |
 | `sim_shim/libero_logger.py` | Extended-rollout logger for policies (untested draft) |
 | `results/` | Run outputs (git-ignored) |
